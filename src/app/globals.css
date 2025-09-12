@@ -1,22 +1,101 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-light-green: #AAD576;
+  --color-medium-green: #73A942;
+  --color-forest-green: #538D22;
+  --color-dark-green: #245501;
+  --color-deeper-green: #1A4301;
+  --color-darkest-green: #143601;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Layout styles */
+.site-layout {
+  margin-left: 200px;
+  transition: all 0.2s ease;
+  min-height: 100vh;
+  background-color: #143601;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.site-layout.collapsed {
+  margin-left: 80px;
+}
+
+/* Sidebar styles */
+.ant-layout-sider {
+  position: fixed !important;
+  height: 100vh !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  background-color: var(--color-darkest-green) !important;
+}
+
+.ant-menu {
+  background-color: transparent !important;
+  border-right: none !important;
+}
+
+.ant-menu-item {
+  color: var(--color-light-green) !important;
+}
+
+.ant-menu-item:hover {
+  color: white !important;
+  background-color: var(--color-forest-green) !important;
+}
+
+.ant-menu-item-selected {
+  background-color: var(--color-dark-green) !important;
+  color: white !important;
+}
+
+.ant-menu-submenu-title {
+  color: var(--color-light-green) !important;
+}
+
+.ant-menu-submenu-title:hover {
+  color: white !important;
+}
+
+.ant-layout-sider-trigger {
+  background-color: var(--color-deeper-green) !important;
+}
+
+/* Custom scrollbar */
+.ant-layout-sider::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ant-layout-sider::-webkit-scrollbar-track {
+  background: var(--color-darkest-green);
+}
+
+.ant-layout-sider::-webkit-scrollbar-thumb {
+  background: var(--color-forest-green);
+  border-radius: 3px;
+}
+
+.ant-layout-sider::-webkit-scrollbar-thumb:hover {
+  background: var(--color-medium-green);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.ant-layout-sider::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.ant-layout-sider {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 body {
