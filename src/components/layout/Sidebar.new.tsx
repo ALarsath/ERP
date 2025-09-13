@@ -137,7 +137,7 @@ const Sidebar = () => {
       className="bg-white border-r border-gray-200 shadow-sm fixed h-screen z-20"
       style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0 }}
     >
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-full ">
         <div className="p-4 flex items-center justify-between border-b border-gray-200">
           <div className="flex items-center gap-3">
             <Avatar size={32} icon={<UserOutlined />} />

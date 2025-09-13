@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Layout, Menu, Avatar, Typography, Divider, Badge, Button } from 'antd';
+import { Layout, Menu, Avatar, Typography, Badge, Button, Tooltip } from 'antd';
 import {
   UserOutlined,
   BookOutlined,
@@ -8,48 +8,29 @@ import {
   DollarOutlined,
   ProjectOutlined,
   CommentOutlined,
-  HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   BellOutlined,
   SettingOutlined,
-  TeamOutlined,
-  FileTextOutlined,
+  LogoutOutlined,
   DashboardOutlined,
+  FileTextOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const { Sider } = Layout;
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
-const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+interface SidebarProps {
+  collapsed: boolean;
+  onCollapse: (collapsed: boolean) => void;
+  isMobile: boolean;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ collapsed, onCollapse, isMobile }) => {
   const pathname = usePathname();
-
-  // Handle responsive behavior
-  useEffect(() => {
-    const handleResize = () => {
-      const isMobileView = window.innerWidth < 768;
-      setIsMobile(isMobileView);
-      if (isMobileView) {
-        setCollapsed(true);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Handle layout class for collapsed state
-  useEffect(() => {
-    const layout = document.querySelector('.site-layout');
-    if (layout) {
-      layout.classList.toggle('collapsed', collapsed);
-    }
-  }, [collapsed]);
 
   const menuItems = [
     {
@@ -78,19 +59,9 @@ const Sidebar = () => {
       label: <Link href="/fees">Fee Management</Link>,
     },
     {
-      key: 'exams',
+      key: 'examinations',
       icon: <FileTextOutlined />,
-      label: 'Examinations',
-      children: [
-        {
-          key: 'exam-schedule',
-          label: <Link href="/exams/schedule">Exam Schedule</Link>,
-        },
-        {
-          key: 'exam-results',
-          label: <Link href="/exams/results">Results</Link>,
-        },
-      ],
+      label: <Link href="/examinations">Examinations</Link>,
     },
     {
       key: 'projects',
@@ -104,50 +75,130 @@ const Sidebar = () => {
     },
   ];
 
+  const handleMenuClick = () => {
+    if (isMobile) {
+      onCollapse(true);
+    }
+  };
+
   return (
-    <Sider
-      trigger={null}
-      collapsible
-      collapsed={collapsed}
-      width={200}
-      className="z-20"
-      style={{ overflow: 'auto' }}
-    >
-      <div className="flex flex-col h-full">
-        <div className="p-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${collapsed ? 'transparent' : '#1A4301'}` }}>
-          <div className="flex items-center gap-3">
-            <Avatar size={32} icon={<UserOutlined />} style={{ backgroundColor: '#73A942' }} />
-            {!collapsed && <Text style={{ color: '#AAD576' }} className="font-medium">Student Portal</Text>}
-          </div>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            className="flex items-center justify-center"
-            style={{ color: '#AAD576' }}
-          />
-        </div>
-
-        <Menu
-          mode="inline"
-          selectedKeys={[pathname.split('/')[1] || 'dashboard']}
-          items={menuItems}
-          className="flex-1 border-none"
+    <>
+      {/* Mobile Overlay */}
+      {isMobile && !collapsed && (
+        <div
+          className="mobile-overlay animate-fade-in"
+          onClick={() => onCollapse(true)}
         />
-
-        {!collapsed && (
-          <div className="sticky bottom-0 p-4" style={{ borderTop: `1px solid #1A4301`, backgroundColor: '#143601' }}>
-            <div className="flex justify-between items-center">
-              <Badge count={3}>
-                <Button type="text" icon={<BellOutlined />} style={{ color: '#AAD576' }} />
-              </Badge>
-              <Button type="text" icon={<SettingOutlined />} style={{ color: '#AAD576' }} />
-              <Button type="text" icon={<TeamOutlined />} style={{ color: '#AAD576' }} />
+      )}
+      
+      <Sider
+        className={`modern-sidebar ${
+          isMobile
+            ? `fixed left-0 h-full z-50 transition-transform duration-300 ${
+                collapsed ? '-translate-x-full' : 'translate-x-0'
+              }`
+            : 'animate-slide-up'
+        }`}
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        width={280}
+        collapsedWidth={80}
+        style={{
+          overflow: 'auto',
+          height: '100vh',
+          position: isMobile ? 'fixed' : 'sticky',
+          top: 0,
+          left: 0,
+        }}
+      >
+        <div className="flex flex-col h-full">
+          {/* Sidebar Header */}
+          <div className="sidebar-header">
+            <div className="flex items-center justify-between">
+              <div className={`sidebar-brand ${collapsed ? 'justify-center' : ''}`}>
+                <Avatar 
+                  size={collapsed ? 32 : 40} 
+                  icon={<HomeOutlined />} 
+                  className="bg-gradient-to-br from-blue-400 to-purple-500 shadow-lg"
+                />
+                {!collapsed && (
+                  <div className="animate-fade-in">
+                    <Text className="text-white font-semibold text-lg">CULTrix</Text>
+                    <br />
+                    <Text className="text-blue-200 text-xs">Student Portal</Text>
+                  </div>
+                )}
+              </div>
+              
+              {!isMobile && (
+                <Tooltip title={collapsed ? 'Expand' : 'Collapse'} placement="right">
+                  <Button
+                    type="text"
+                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                    onClick={() => onCollapse(!collapsed)}
+                    className="sidebar-toggle"
+                    size="small"
+                  />
+                </Tooltip>
+              )}
             </div>
           </div>
-        )}
-      </div>
-    </Sider>
+
+          {/* Navigation Menu */}
+          <Menu
+            mode="inline"
+            selectedKeys={[pathname.split('/')[1] || 'dashboard']}
+            items={menuItems}
+            className="modern-menu"
+            onClick={handleMenuClick}
+          />
+
+          {/* Sidebar Footer */}
+          <div className={`sidebar-footer ${collapsed ? 'px-2' : ''}`}>
+            {!collapsed && (
+              <div className="mb-3 animate-fade-in">
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-white/10 backdrop-blur-sm">
+                  <Avatar size={36} icon={<UserOutlined />} className="bg-gradient-to-br from-green-400 to-blue-500" />
+                  <div className="flex-1 min-w-0">
+                    <Text className="text-white font-medium text-sm block truncate">John Doe</Text>
+                    <Text className="text-blue-200 text-xs block truncate">Student ID: 2024001</Text>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            <div className={`sidebar-footer-actions ${collapsed ? 'flex-col gap-2' : ''}`}>
+              <Tooltip title="Notifications" placement={collapsed ? 'right' : 'top'}>
+                <Badge count={3} size="small">
+                  <Button 
+                    type="text" 
+                    icon={<BellOutlined />} 
+                    className="sidebar-footer-btn"
+                  />
+                </Badge>
+              </Tooltip>
+              
+              <Tooltip title="Settings" placement={collapsed ? 'right' : 'top'}>
+                <Button 
+                  type="text" 
+                  icon={<SettingOutlined />} 
+                  className="sidebar-footer-btn"
+                />
+              </Tooltip>
+              
+              <Tooltip title="Logout" placement={collapsed ? 'right' : 'top'}>
+                <Button 
+                  type="text" 
+                  icon={<LogoutOutlined />} 
+                  className="sidebar-footer-btn text-red-300 hover:text-red-200"
+                />
+              </Tooltip>
+            </div>
+          </div>
+        </div>
+      </Sider>
+    </>
   );
 };
 
