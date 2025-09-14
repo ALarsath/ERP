@@ -38,6 +38,7 @@ import {
   EyeOutlined,
   DownloadOutlined,
   EditOutlined,
+  ProjectOutlined,
 } from '@ant-design/icons';
 
 const { Title, Text, Paragraph } = Typography;
@@ -183,7 +184,7 @@ export default function Academics() {
     {
       key: '3',
       rank: 3,
-      name: 'John Doe (You)',
+      name: ' (You)',
       class: 'X-A',
       totalMarks: 470,
       percentage: 94.0,
@@ -367,7 +368,7 @@ export default function Academics() {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_, record: Course) => (
+      render: (   record: Course) => (
         <Space>
           <Tooltip title="View Details">
             <Button type="text" icon={<EyeOutlined />} size="small" />
@@ -620,7 +621,7 @@ export default function Academics() {
                         <div className="flex items-center gap-4 text-xs text-slate-500">
                           <span>{activity.date}</span>
                           <span>{activity.time}</span>
-                          <Tag size="small" color={
+                          <Tag  color={
                             activity.status === 'graded' ? 'success' : 
                             activity.status === 'pending' ? 'warning' : 'processing'
                           }>

@@ -18,7 +18,7 @@ import {
   HomeOutlined,
 } from '@ant-design/icons';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const { Sider } = Layout;
 const { Text } = Typography;
@@ -31,6 +31,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ collapsed, onCollapse, isMobile }) => {
   const pathname = usePathname();
+  const router = useRouter();
 
   const menuItems = [
     {
@@ -79,6 +80,14 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onCollapse, isMobile }) =>
     if (isMobile) {
       onCollapse(true);
     }
+  };
+
+  const handleLogout = () => {
+    // Perform any necessary cleanup or API calls here
+    // For example, clearing user data from localStorage or making a logout API call
+    
+    // Redirect to login page
+    router.push('/login');
   };
 
   return (
@@ -161,7 +170,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onCollapse, isMobile }) =>
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-white/10 backdrop-blur-sm">
                   <Avatar size={36} icon={<UserOutlined />} className="bg-gradient-to-br from-green-400 to-blue-500" />
                   <div className="flex-1 min-w-0">
-                    <Text className="text-white font-medium text-sm block truncate">John Doe</Text>
+                    <Text className="text-white font-medium text-sm block truncate">Prassana Natarajan R</Text>
                     <Text className="text-blue-200 text-xs block truncate">Student ID: 2024001</Text>
                   </div>
                 </div>
@@ -192,6 +201,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onCollapse, isMobile }) =>
                   type="text" 
                   icon={<LogoutOutlined />} 
                   className="sidebar-footer-btn text-red-300 hover:text-red-200"
+                  onClick={handleLogout}
                 />
               </Tooltip>
             </div>

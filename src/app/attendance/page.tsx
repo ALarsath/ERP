@@ -147,7 +147,7 @@ export default function Attendance() {
       '2025-01-12': 'present',
       '2025-01-13': 'late',
       '2025-01-14': 'present',
-    },
+    } as Record<string, string>,
     recentActivity: [
       {
         date: '2025-01-14',
@@ -236,7 +236,7 @@ export default function Attendance() {
     {
       title: 'Classes',
       key: 'classes',
-      render: (_, record: any) => (
+      render: (   record: any) => (
         <div className="text-center">
           <div className="text-lg font-bold text-slate-900">{record.presentClasses}/{record.totalClasses}</div>
           <Text className="text-xs text-slate-500">Attended</Text>
@@ -260,7 +260,7 @@ export default function Attendance() {
     {
       title: 'Progress',
       key: 'progress',
-      render: (_, record: any) => (
+      render: (   record: any) => (
         <div>
           <div className="flex justify-between mb-1">
             <Text className="text-xs text-slate-600">Present</Text>
@@ -282,7 +282,7 @@ export default function Attendance() {
     {
       title: 'Next Class',
       key: 'nextClass',
-      render: (_, record: any) => (
+      render: (   record: any) => (
         <div className="text-center">
           <div className="flex items-center gap-1 justify-center mb-1">
             <ClockCircleOutlined className="text-blue-500" />
@@ -552,7 +552,7 @@ export default function Attendance() {
                         <Text strong className="text-slate-900 block">{classItem.subject}</Text>
                         <Text className="text-xs text-slate-600">{classItem.teacher}</Text>
                       </div>
-                      <Tag color="purple" size="small">{classItem.type}</Tag>
+                      <Tag color="purple" >{classItem.type}</Tag>
                     </div>
                     <div className="space-y-2 text-sm text-slate-600">
                       <div className="flex items-center gap-2">

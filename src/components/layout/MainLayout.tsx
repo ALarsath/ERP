@@ -56,7 +56,7 @@ export default function MainLayout({
         .join(' ');
       
       items.push({
-        title: title,
+        title: <span>{title}</span>,
       });
     });
 

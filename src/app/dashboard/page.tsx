@@ -311,7 +311,7 @@ export default function DashboardPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <Title level={1} className="!text-white !mb-2 !text-2xl sm:!text-3xl">
-                Welcome back, John! 👋
+                Welcome back, Prassana Natarajan! 👋
               </Title>
               <Paragraph className="!text-blue-100 !mb-0 text-sm sm:text-base">
                 You're doing great this semester. Keep up the excellent work!
@@ -455,8 +455,8 @@ export default function DashboardPage() {
                       <div className="flex-1">
                         <Text strong className="text-slate-900 block mb-1">{project.title}</Text>
                         <div className="flex items-center gap-2 mb-2">
-                          <Tag color="blue" size="small">{project.subject}</Tag>
-                          <Tag color={getPriorityColor(project.priority)} size="small">
+                          <Tag color="blue" >{project.subject}</Tag>
+                          <Tag color={getPriorityColor(project.priority)} >
                             {project.priority.toUpperCase()}
                           </Tag>
                         </div>

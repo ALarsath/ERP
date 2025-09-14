@@ -45,7 +45,7 @@ export default function PersonalInfo() {
   // Mock data - replace with actual data from your backend
   const studentInfo = {
     basicInfo: {
-      name: 'John Doe',
+      name: 'Prassana Natarajan R',
       admissionNo: 'ADM2023001',
       class: 'X-A',
       rollNo: '23',

@@ -18,10 +18,16 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 }) => {
   const pathname = usePathname();
   const isDashboard = pathname === '/dashboard';
+  const [collapsed, setCollapsed] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {isDashboard && <Sidebar />}
+      {isDashboard && <Sidebar 
+        collapsed={collapsed}
+        onCollapse={setCollapsed}
+        isMobile={isMobile}
+      />}
       <div className={`flex-1 overflow-auto p-6 ${!isDashboard ? 'w-full' : ''}`}>
         <Topbar 
           title={title}

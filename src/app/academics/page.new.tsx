@@ -127,7 +127,7 @@ export default function Academics() {
     {
       key: '3',
       rank: 3,
-      name: 'John Doe',
+      name: 'Prassana Natarajan',
       class: 'X-A',
       totalMarks: 470,
       percentage: 94.0,

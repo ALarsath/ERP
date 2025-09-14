@@ -354,14 +354,14 @@ export default function Examinations() {
     {
       title: 'Exam Details',
       key: 'examDetails',
-      render: (_, record: Exam) => (
+      render: (  record: Exam) => (
         <div className="flex items-center gap-3">
           <Avatar size={40} icon={<BookOutlined />} className="bg-blue-500" />
           <div>
             <Text strong className="text-slate-900 block">{record.subject}</Text>
             <div className="flex items-center gap-2">
-              <Tag color="blue" size="small">{record.examType}</Tag>
-              <Tag color={getPriorityColor(record.priority)} size="small">
+              <Tag color="blue" >{record.examType}</Tag>
+              <Tag color={getPriorityColor(record.priority)} >
                 {record.priority.toUpperCase()}
               </Tag>
             </div>
@@ -372,7 +372,7 @@ export default function Examinations() {
     {
       title: 'Schedule',
       key: 'schedule',
-      render: (_, record: Exam) => (
+      render: (  record: Exam) => (
         <div>
           <div className="flex items-center gap-1 mb-1">
             <CalendarOutlined className="text-blue-500" />
@@ -392,7 +392,7 @@ export default function Examinations() {
     {
       title: 'Venue & Instructor',
       key: 'venue',
-      render: (_, record: Exam) => (
+      render: (  record: Exam) => (
         <div>
           <div className="flex items-center gap-1 mb-1">
             <EnvironmentOutlined className="text-red-500" />
@@ -431,7 +431,7 @@ export default function Examinations() {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_, record: Exam) => (
+      render: (  record: Exam) => (
         <Space direction="vertical" size="small">
           <Space size="small">
             <Tooltip title="View Details">
@@ -450,7 +450,7 @@ export default function Examinations() {
     {
       title: 'Subject Details',
       key: 'subjectDetails',
-      render: (_, record: ExamResult) => (
+      render: (  record: ExamResult) => (
         <div className="flex items-center gap-3">
           <Avatar size={40} icon={<FileTextOutlined />} className="bg-green-500" />
           <div>
@@ -474,7 +474,7 @@ export default function Examinations() {
     {
       title: 'Score',
       key: 'score',
-      render: (_, record: ExamResult) => (
+      render: (  record: ExamResult) => (
         <div className="text-center">
           <div className="text-lg font-bold text-slate-900">
             {record.obtainedMarks}/{record.totalMarks}
@@ -486,7 +486,7 @@ export default function Examinations() {
     {
       title: 'Grade & Rank',
       key: 'gradeRank',
-      render: (_, record: ExamResult) => (
+      render: (  record: ExamResult) => (
         <div className="text-center">
           <Tag color={getGradeColor(record.grade)} className="mb-1 font-medium">
             {record.grade}
@@ -502,7 +502,7 @@ export default function Examinations() {
     {
       title: 'Progress',
       key: 'progress',
-      render: (_, record: ExamResult) => (
+      render: (  record: ExamResult) => (
         <div>
           <Progress
             percent={record.percentage}
@@ -516,7 +516,7 @@ export default function Examinations() {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_, record: ExamResult) => (
+      render: (  record: ExamResult) => (
         <Space>
           <Tooltip title="View Details">
             <Button
@@ -756,7 +756,7 @@ export default function Examinations() {
                         <Text strong className="text-slate-900 block">{exam.subject}</Text>
                         <Text className="text-xs text-slate-600">{exam.examType}</Text>
                       </div>
-                      <Tag color={getPriorityColor(exam.priority)} size="small">
+                      <Tag color={getPriorityColor(exam.priority)} >
                         {exam.priority.toUpperCase()}
                       </Tag>
                     </div>

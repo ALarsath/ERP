@@ -295,15 +295,15 @@ export default function Fees() {
     {
       title: 'Fee Details',
       key: 'feeDetails',
-      render: (_, record: FeeDetail) => (
+      render: (_: FeeDetail, record: FeeDetail) => (
         <div className="flex items-center gap-3">
           <Avatar size={40} icon={getCategoryIcon(record.category)} className="bg-blue-500" />
           <div>
             <Text strong className="text-slate-900 block">{record.feeType}</Text>
             <div className="flex items-center gap-2">
-              <Tag color="blue" size="small">{record.category}</Tag>
+              <Tag color="blue" >{record.category}</Tag>
               {record.installments && (
-                <Tag color="purple" size="small">
+                <Tag color="purple" >
                   {record.currentInstallment}/{record.installments} Installments
                 </Tag>
               )}
@@ -315,7 +315,7 @@ export default function Fees() {
     {
       title: 'Amount Details',
       key: 'amounts',
-      render: (_, record: FeeDetail) => (
+      render: ( record: FeeDetail) => (
         <div className="text-center">
           <div className="text-lg font-bold text-slate-900">₹{record.amount.toLocaleString()}</div>
           <div className="text-sm text-slate-600">
@@ -323,10 +323,10 @@ export default function Fees() {
             <div className="text-red-600">Due: ₹{record.remainingAmount.toLocaleString()}</div>
           </div>
           {record.discount && (
-            <Tag color="green" size="small">Discount: ₹{record.discount}</Tag>
+            <Tag color="green"  >Discount: ₹{record.discount}</Tag>
           )}
           {record.lateFee && (
-            <Tag color="red" size="small">Late Fee: ₹{record.lateFee}</Tag>
+            <Tag color="red"  >Late Fee: ₹{record.lateFee}</Tag>
           )}
         </div>
       ),
@@ -334,7 +334,7 @@ export default function Fees() {
     {
       title: 'Progress',
       key: 'progress',
-      render: (_, record: FeeDetail) => (
+      render: ( record: FeeDetail) => (
         <div>
           <div className="flex justify-between mb-1">
             <Text className="text-xs text-slate-600">Payment Progress</Text>
@@ -344,7 +344,7 @@ export default function Fees() {
           </div>
           <Progress
             percent={Math.round((record.paidAmount / record.amount) * 100)}
-            size="small"
+             
             strokeColor={record.status === 'paid' ? '#10b981' : record.status === 'overdue' ? '#ef4444' : '#f59e0b'}
             className="modern-progress"
           />
@@ -364,7 +364,7 @@ export default function Fees() {
             </Text>
           </div>
           {record.status === 'overdue' && (
-            <Tag color="red" size="small">
+            <Tag color="red"  >
               {dayjs().diff(dayjs(date), 'days')} days overdue
             </Tag>
           )}
@@ -386,24 +386,24 @@ export default function Fees() {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_, record: FeeDetail) => (
-        <Space direction="vertical" size="small">
+      render: ( record: FeeDetail) => (
+        <Space direction="vertical"  >
           <Button
             type="primary"
             icon={<PayCircleOutlined />}
             onClick={() => handlePayment(record)}
             disabled={record.status === 'paid'}
             className="modern-btn modern-btn-primary w-full"
-            size="small"
+             
           >
             {record.status === 'paid' ? 'Paid' : 'Pay Now'}
           </Button>
-          <Space size="small">
+          <Space  >
             <Tooltip title="View Details">
-              <Button type="text" icon={<EyeOutlined />} size="small" />
+              <Button type="text" icon={<EyeOutlined />}   />
             </Tooltip>
             <Tooltip title="Download Receipt">
-              <Button type="text" icon={<DownloadOutlined />} size="small" />
+              <Button type="text" icon={<DownloadOutlined />}   />
             </Tooltip>
           </Space>
         </Space>
@@ -415,7 +415,7 @@ export default function Fees() {
     {
       title: 'Payment Details',
       key: 'paymentDetails',
-      render: (_, record: PaymentHistory) => (
+      render: ( record: PaymentHistory) => (
         <div className="flex items-center gap-3">
           <Avatar size={36} icon={<PayCircleOutlined />} className="bg-green-500" />
           <div>
@@ -490,10 +490,10 @@ export default function Fees() {
       render: () => (
         <Space>
           <Tooltip title="Download Receipt">
-            <Button type="text" icon={<DownloadOutlined />} size="small" />
+            <Button type="text" icon={<DownloadOutlined />}   />
           </Tooltip>
           <Tooltip title="Print Receipt">
-            <Button type="text" icon={<PrinterOutlined />} size="small" />
+            <Button type="text" icon={<PrinterOutlined />}   />
           </Tooltip>
         </Space>
       ),
@@ -556,7 +556,7 @@ export default function Fees() {
                 />
                 <Progress
                   percent={Math.round((feeSummary.paidAmount / feeSummary.totalFees) * 100)}
-                  size="small"
+                   
                   showInfo={false}
                   strokeColor="#10b981"
                   className="mt-2 modern-progress"
@@ -657,7 +657,7 @@ export default function Fees() {
                     <div key={index} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
                       <div className="flex items-center justify-between mb-2">
                         <Text strong className="text-slate-900 text-sm">{payment.feeType}</Text>
-                        <Tag color={getPriorityColor(payment.priority)} size="small">
+                        <Tag color={getPriorityColor(payment.priority)}  >
                           {payment.priority.toUpperCase()}
                         </Tag>
                       </div>
@@ -848,7 +848,7 @@ export default function Fees() {
           <Form onFinish={handlePaymentSubmit} layout="vertical" className="modern-form">
             {selectedFee && (
               <div className="mb-6 p-4 bg-slate-50 rounded-lg">
-                <Descriptions column={1} size="small">
+                <Descriptions column={1}  >
                   <Descriptions.Item label="Fee Type">
                     <Text strong>{selectedFee.feeType}</Text>
                   </Descriptions.Item>
