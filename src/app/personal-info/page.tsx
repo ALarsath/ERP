@@ -35,8 +35,24 @@ import {
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text } = Typography;
 const { Option } = Select;
+
+interface PersonalInfoFormValues {
+  fullName: string;
+  dateOfBirth: dayjs.Dayjs;
+  gender: string;
+  email: string;
+  phone: string;
+  address: string;
+  parentName: string;
+  parentContact: string;
+  extracurricularActivities: string;
+  clubs: string;
+  achievements: string;
+  hobbies: string;
+  [key: string]: any; // For any additional fields
+}
 
 export default function PersonalInfo() {
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
@@ -110,7 +126,7 @@ export default function PersonalInfo() {
     setIsEditModalVisible(true);
   };
 
-  const handleFormSubmit = (values: any) => {
+  const handleFormSubmit = (values: PersonalInfoFormValues) => {
     console.log('Form values:', values);
     // Here you would typically send the data to your backend
     setIsEditModalVisible(false);

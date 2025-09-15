@@ -3,13 +3,28 @@ import { Card, Table, Typography, Row, Col, Statistic, Progress, Alert, List, Ta
 import { useState } from 'react';
 import MainLayout from '@/components/layout/MainLayout';
 import type { PointsData, Project, Activity } from '@/types/dashboard';
+
+interface Subject {
+  name: string;
+  room: string;
+}
+
+interface TimeTableEntry {
+  key: string;
+  time: string;
+  monday?: Subject;
+  tuesday?: Subject;
+  wednesday?: Subject;
+  thursday?: Subject;
+  friday?: Subject;
+}
 import {
   TrophyOutlined,
   RiseOutlined,
   BookOutlined,
   CheckCircleOutlined,
   ClockCircleOutlined,
-  WarningOutlined,
+  // Removed unused WarningOutlined
   ProjectOutlined,
   StarOutlined,
   CalendarOutlined,
@@ -160,7 +175,7 @@ export default function DashboardPage() {
       title: 'Monday', 
       dataIndex: 'monday', 
       key: 'monday',
-      render: (subject: any) => subject ? (
+      render: (subject: Subject | undefined) => subject ? (
         <div className="p-2 bg-blue-50 rounded-md border-l-4 border-blue-400">
           <Text className="text-blue-800 font-medium text-xs">{subject.name}</Text>
           <br />
@@ -172,7 +187,7 @@ export default function DashboardPage() {
       title: 'Tuesday', 
       dataIndex: 'tuesday', 
       key: 'tuesday',
-      render: (subject: any) => subject ? (
+      render: (subject: Subject | undefined) => subject ? (
         <div className="p-2 bg-green-50 rounded-md border-l-4 border-green-400">
           <Text className="text-green-800 font-medium text-xs">{subject.name}</Text>
           <br />
@@ -184,7 +199,7 @@ export default function DashboardPage() {
       title: 'Wednesday', 
       dataIndex: 'wednesday', 
       key: 'wednesday',
-      render: (subject: any) => subject ? (
+      render: (subject: Subject | undefined) => subject ? (
         <div className="p-2 bg-purple-50 rounded-md border-l-4 border-purple-400">
           <Text className="text-purple-800 font-medium text-xs">{subject.name}</Text>
           <br />
@@ -196,7 +211,7 @@ export default function DashboardPage() {
       title: 'Thursday', 
       dataIndex: 'thursday', 
       key: 'thursday',
-      render: (subject: any) => subject ? (
+      render: (subject: Subject | undefined) => subject ? (
         <div className="p-2 bg-orange-50 rounded-md border-l-4 border-orange-400">
           <Text className="text-orange-800 font-medium text-xs">{subject.name}</Text>
           <br />
@@ -208,7 +223,7 @@ export default function DashboardPage() {
       title: 'Friday', 
       dataIndex: 'friday', 
       key: 'friday',
-      render: (subject: any) => subject ? (
+      render: (subject: Subject | undefined) => subject ? (
         <div className="p-2 bg-pink-50 rounded-md border-l-4 border-pink-400">
           <Text className="text-pink-800 font-medium text-xs">{subject.name}</Text>
           <br />
