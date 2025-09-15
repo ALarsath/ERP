@@ -20,6 +20,7 @@ import {
   Avatar,
   Tooltip,
   DatePicker,
+  Modal,
 } from 'antd';
 import {
   CheckCircleOutlined,
@@ -52,6 +53,34 @@ export default function Attendance() {
   const [selectedMonth, setSelectedMonth] = useState(dayjs());
   const [selectedPeriod, setSelectedPeriod] = useState('current');
   const [activeTab, setActiveTab] = useState('overview');
+  const [warningModalVisible, setWarningModalVisible] = useState(false);
+
+  // Warning data
+  const warningData = {
+    totalWarnings: 3, // Maximum warnings before block
+    currentWarnings: [
+      {
+        date: '2025-01-10',
+        reason: 'Indiscipline activities - Disrupting class',
+        issuedBy: 'Dr. Sarah Johnson',
+        severity: 'high'
+      },
+      {
+        date: '2025-01-05',
+        reason: 'Improper haircut - Not following dress code',
+        issuedBy: 'Mr. Robert Smith',
+        severity: 'medium'
+      },
+      {
+        date: '2024-12-20',
+        reason: 'Late arrival - Multiple instances',
+        issuedBy: 'Mrs. Emily Brown',
+        severity: 'high'
+      }
+    ]
+  };
+
+  const isAttendanceBlocked = warningData.currentWarnings.length >= warningData.totalWarnings;
 
   // Enhanced attendance data with more details
   const attendanceData = {
@@ -351,25 +380,101 @@ export default function Attendance() {
           {/* Attendance Alert */}
           <Alert
             message={
-              <div className="flex items-center gap-2">
-                <FireOutlined className="text-green-500" />
-                <Text strong>Excellent Attendance Record!</Text>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <FireOutlined className={isAttendanceBlocked ? "text-red-500" : "text-green-500"} />
+                  <Text strong>{isAttendanceBlocked ? "Attendance Blocked!" : "Excellent Attendance Record!"}</Text>
+                </div>
+                {isAttendanceBlocked && (
+                  <Tag 
+                    color="error" 
+                    icon={<WarningOutlined />} 
+                    className="cursor-pointer animate-pulse"
+                    onClick={() => setWarningModalVisible(true)}
+                  >
+                    BLOCKED
+                  </Tag>
+                )}
               </div>
             }
             description={
               <div className="mt-2">
-                <Text>You're maintaining great attendance with 92% overall rate. Keep up the good work!</Text>
+                <Text>
+                  {isAttendanceBlocked 
+                    ? "Your attendance has been blocked due to multiple warnings. Click the BLOCKED label to view details."
+                    : "You're maintaining great attendance with 92% overall rate. Keep up the good work!"
+                  }
+                </Text>
                 <div className="mt-2 flex flex-wrap gap-2">
                   <Tag color="green" icon={<CheckCircleOutlined />}>Current Streak: {attendanceData.overall.streak} days</Tag>
                   <Tag color="blue" icon={<TrophyOutlined />}>Best Streak: {attendanceData.overall.bestStreak} days</Tag>
                   <Tag color="purple" icon={<StarOutlined />}>Goal: {attendanceData.overall.attendanceGoal}%</Tag>
+                  {warningData.currentWarnings.length > 0 && (
+                    <Tag 
+                      color="warning" 
+                      icon={<WarningOutlined />}
+                      onClick={() => setWarningModalVisible(true)}
+                      className="cursor-pointer"
+                    >
+                      Warnings: {warningData.currentWarnings.length}/{warningData.totalWarnings}
+                    </Tag>
+                  )}
                 </div>
               </div>
             }
-            type="success"
+            type={isAttendanceBlocked ? "error" : "success"}
             showIcon={false}
             className="modern-alert"
           />
+
+          {/* Warning Modal */}
+          <Modal
+            title={
+              <div className="flex items-center gap-2">
+                <WarningOutlined className="text-red-500" />
+                <span>{isAttendanceBlocked ? "Attendance Blocked - Warning Details" : "Warning Details"}</span>
+              </div>
+            }
+            open={warningModalVisible}
+            onCancel={() => setWarningModalVisible(false)}
+            footer={[
+              <Button key="close" onClick={() => setWarningModalVisible(false)}>
+                Close
+              </Button>
+            ]}
+          >
+            <div className="space-y-4">
+              {isAttendanceBlocked && (
+                <Alert
+                  message="Attendance Blocked"
+                  description="Your attendance has been blocked due to accumulating 3 warnings. Please contact your advisor or the administration office for resolution."
+                  type="error"
+                  showIcon
+                  className="mb-4"
+                />
+              )}
+              
+              <Timeline
+                items={warningData.currentWarnings.map((warning, index) => ({
+                  color: warning.severity === 'high' ? 'red' : 'orange',
+                  children: (
+                    <div>
+                      <div className="flex justify-between items-start">
+                        <Text strong>{warning.reason}</Text>
+                        <Tag color={warning.severity === 'high' ? 'error' : 'warning'}>
+                          {warning.severity.toUpperCase()}
+                        </Tag>
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        <div>Issued by: {warning.issuedBy}</div>
+                        <div>Date: {warning.date}</div>
+                      </div>
+                    </div>
+                  ),
+                }))}
+              />
+            </div>
+          </Modal>
 
           {/* Quick Stats */}
           <Row gutter={[16, 16]}>

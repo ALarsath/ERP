@@ -1,5 +1,6 @@
 'use client';
-import { Card, Table, Typography, Row, Col, Statistic, Progress, Alert, List, Tag, Timeline, Avatar, Space, Divider } from 'antd';
+import { Card, Table, Typography, Row, Col, Statistic, Progress, Alert, List, Tag, Timeline, Avatar, Space, Divider, Modal } from 'antd';
+import { useState } from 'react';
 import MainLayout from '@/components/layout/MainLayout';
 import {
   TrophyOutlined,
@@ -16,19 +17,60 @@ import {
   ThunderboltOutlined,
   HeartOutlined,
   TeamOutlined,
+  CrownOutlined,
+  DollarOutlined,
 } from '@ant-design/icons';
 
 const { Title, Text, Paragraph } = Typography;
 
 export default function DashboardPage() {
+  // Modal states
+  const [totalPointsModalVisible, setTotalPointsModalVisible] = useState(false);
+  const [currentPointsModalVisible, setCurrentPointsModalVisible] = useState(false);
+
+  // Points data
+  const totalEarnedPoints = 850;
+  const pointsData = {
+    totalPoints: totalEarnedPoints,
+    maxTotalPoints: 1000,
+    // Current points measured against total earned points
+    currentPoints: 720, // Current points earned out of total earned points
+    maxCurrentPoints: totalEarnedPoints, // Maximum is the total earned points
+    totalPointsBreakdown: [
+      { category: 'Academic Performance', points: 350, maxPoints: 400 },
+      { category: 'Attendance', points: 180, maxPoints: 200 },
+      { category: 'Extracurricular Activities', points: 150, maxPoints: 200 },
+      { category: 'Behavior and Discipline', points: 170, maxPoints: 200 },
+    ],
+    currentPointsBreakdown: [
+      { 
+        category: 'Class Participation', 
+        points: 250,
+        maxPoints: totalEarnedPoints
+      },
+      { 
+        category: 'Homework Completion', 
+        points: 200,
+        maxPoints: totalEarnedPoints
+      },
+      { 
+        category: 'Quiz Performance', 
+        points: 170,
+        maxPoints: totalEarnedPoints
+      },
+      { 
+        category: 'Behavior', 
+        points: 100,
+        maxPoints: totalEarnedPoints
+      },
+    ],
+  };
+
   // Academic Performance Stats
   const academicStats = {
-    rank: 5,
     totalStudents: 60,
     averageScore: 85.5,
     attendance: 92,
-    completedProjects: 15,
-    totalProjects: 20,
     upcomingExams: 3,
     pendingAssignments: 4,
   };
@@ -319,8 +361,8 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-center gap-4">
               <div className="text-center">
-                <div className="text-2xl font-bold">{academicStats.rank}</div>
-                <div className="text-xs text-blue-200">Class Rank</div>
+                <div className="text-2xl font-bold">{pointsData.currentPoints}</div>
+                <div className="text-xs text-blue-200">Current Points</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold">{academicStats.averageScore}%</div>
@@ -333,15 +375,15 @@ export default function DashboardPage() {
         {/* Quick Stats */}
         <Row gutter={[16, 16]} className="animate-slide-up">
           <Col xs={12} sm={6}>
-            <Card className="stat-card modern-card">
+            <Card className="stat-card modern-card cursor-pointer hover:shadow-md transition-all" onClick={() => setTotalPointsModalVisible(true)}>
               <Statistic
-                title="Class Rank"
-                value={`${academicStats.rank}/${academicStats.totalStudents}`}
-                prefix={<TrophyOutlined className="text-yellow-500" />}
+                title="Total Earned Points"
+                value={`${pointsData.totalPoints}/${pointsData.maxTotalPoints}`}
+                prefix={<CrownOutlined className="text-yellow-500" />}
                 valueStyle={{ color: '#f59e0b', fontWeight: 'bold' }}
               />
               <Progress
-                percent={(1 - academicStats.rank/academicStats.totalStudents) * 100}
+                percent={(pointsData.totalPoints/pointsData.maxTotalPoints) * 100}
                 size="small"
                 showInfo={false}
                 strokeColor="#f59e0b"
@@ -390,15 +432,15 @@ export default function DashboardPage() {
           </Col>
           
           <Col xs={12} sm={6}>
-            <Card className="stat-card modern-card">
+            <Card className="stat-card modern-card cursor-pointer hover:shadow-md transition-all" onClick={() => setCurrentPointsModalVisible(true)}>
               <Statistic
-                title="Projects"
-                value={`${academicStats.completedProjects}/${academicStats.totalProjects}`}
-                prefix={<ProjectOutlined className="text-purple-500" />}
+                title="Current Points"
+                value={`${pointsData.currentPoints}/${pointsData.maxCurrentPoints}`}
+                prefix={<DollarOutlined className="text-purple-500" />}
                 valueStyle={{ color: '#8b5cf6', fontWeight: 'bold' }}
               />
               <Progress
-                percent={(academicStats.completedProjects / academicStats.totalProjects) * 100}
+                percent={(pointsData.currentPoints / pointsData.maxCurrentPoints) * 100}
                 size="small"
                 showInfo={false}
                 strokeColor="#8b5cf6"
@@ -643,6 +685,102 @@ export default function DashboardPage() {
             </Card>
           </Col>
         </Row>
+
+        {/* Total Points Modal */}
+        <Modal
+          title={
+            <div className="flex items-center gap-2">
+              <CrownOutlined className="text-yellow-500" />
+              <span>Total Points Breakdown</span>
+            </div>
+          }
+          open={totalPointsModalVisible}
+          onCancel={() => setTotalPointsModalVisible(false)}
+          footer={null}
+          width={600}
+        >
+          <div className="space-y-4">
+            <div className="text-center p-4 bg-yellow-50 rounded-lg">
+              <Statistic
+                title="Total Points Earned"
+                value={`${pointsData.totalPoints}/${pointsData.maxTotalPoints}`}
+                suffix="points"
+                valueStyle={{ color: '#f59e0b' }}
+              />
+              <Progress
+                percent={(pointsData.totalPoints/pointsData.maxTotalPoints) * 100}
+                strokeColor="#f59e0b"
+              />
+            </div>
+            <List
+              dataSource={pointsData.totalPointsBreakdown}
+              renderItem={item => (
+                <List.Item>
+                  <div className="w-full">
+                    <div className="flex justify-between items-center mb-2">
+                      <Text strong>{item.category}</Text>
+                      <Text>{item.points}/{item.maxPoints} points</Text>
+                    </div>
+                    <Progress
+                      percent={(item.points/item.maxPoints) * 100}
+                      size="small"
+                      showInfo={false}
+                      strokeColor="#f59e0b"
+                    />
+                  </div>
+                </List.Item>
+              )}
+            />
+          </div>
+        </Modal>
+
+        {/* Current Points Modal */}
+        <Modal
+          title={
+            <div className="flex items-center gap-2">
+              <DollarOutlined className="text-purple-500" />
+              <span>Current Points Breakdown</span>
+            </div>
+          }
+          open={currentPointsModalVisible}
+          onCancel={() => setCurrentPointsModalVisible(false)}
+          footer={null}
+          width={600}
+        >
+          <div className="space-y-4">
+            <div className="text-center p-4 bg-purple-50 rounded-lg">
+              <Statistic
+                title="Current Period Points"
+                value={`${pointsData.currentPoints}/${pointsData.maxCurrentPoints}`}
+                suffix="points"
+                valueStyle={{ color: '#8b5cf6' }}
+              />
+              <Progress
+                percent={(pointsData.currentPoints/pointsData.maxCurrentPoints) * 100}
+                strokeColor="#8b5cf6"
+              />
+            </div>
+            <List
+              dataSource={pointsData.currentPointsBreakdown}
+              renderItem={item => (
+                <List.Item>
+                  <div className="w-full">
+                    <div className="flex justify-between items-center mb-2">
+                      <Text strong>{item.category}</Text>
+                      <Text>{item.points}/{item.maxPoints} points</Text>
+                    </div>
+                    <Progress
+                      percent={(item.points/item.maxPoints) * 100}
+                      size="small"
+                      showInfo={false}
+                      strokeColor="#8b5cf6"
+                    />
+                  </div>
+                </List.Item>
+              )}
+            />
+          </div>
+        </Modal>
       </div>
     </MainLayout>
   );
