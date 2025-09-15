@@ -17,7 +17,7 @@ import {
   Button,
   Alert,
   Timeline,
-  Avatar, 
+  Avatar,  
   Tooltip, 
   DatePicker,
   Modal,
