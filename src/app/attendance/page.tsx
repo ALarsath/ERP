@@ -49,6 +49,27 @@ const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
+interface SubjectAttendance {
+  subject: string;
+  teacher: string;
+  present: number;
+  absent: number;
+  late: number;
+  total: number;
+  totalClasses: number;
+  presentClasses: number;
+  absentClasses: number;
+  lateClasses: number;
+  nextClass: string;
+}
+
+interface Warning {
+  date: string;
+  reason: string;
+  issuedBy: string;
+  severity: 'high' | 'medium' | 'low';
+}
+
 export default function Attendance() {
   const [selectedMonth, setSelectedMonth] = useState(dayjs());
   const [selectedPeriod, setSelectedPeriod] = useState('current');
@@ -252,7 +273,7 @@ export default function Attendance() {
       title: 'Subject',
       dataIndex: 'subject',
       key: 'subject',
-      render: (text: string, record: any) => (
+      render: (text: string, record: { teacher: string; subject: string }) => (
         <div className="flex items-center gap-3">
           <Avatar size={40} icon={<BookOutlined />} className="bg-blue-500" />
           <div>
@@ -265,7 +286,7 @@ export default function Attendance() {
     {
       title: 'Classes',
       key: 'classes',
-      render: (   record: any) => (
+      render: (record: SubjectAttendance) => (
         <div className="text-center">
           <div className="text-lg font-bold text-slate-900">{record.presentClasses}/{record.totalClasses}</div>
           <Text className="text-xs text-slate-500">Attended</Text>
@@ -289,7 +310,7 @@ export default function Attendance() {
     {
       title: 'Progress',
       key: 'progress',
-      render: (   record: any) => (
+      render: (record: SubjectAttendance) => (
         <div>
           <div className="flex justify-between mb-1">
             <Text className="text-xs text-slate-600">Present</Text>
@@ -311,7 +332,7 @@ export default function Attendance() {
     {
       title: 'Next Class',
       key: 'nextClass',
-      render: (   record: any) => (
+      render: (record: SubjectAttendance) => (
         <div className="text-center">
           <div className="flex items-center gap-1 justify-center mb-1">
             <ClockCircleOutlined className="text-blue-500" />
@@ -455,7 +476,7 @@ export default function Attendance() {
               )}
               
               <Timeline
-                items={warningData.currentWarnings.map((warning, index) => ({
+                items={warningData.currentWarnings.map((warning) => ({
                   color: warning.severity === 'high' ? 'red' : 'orange',
                   children: (
                     <div>
