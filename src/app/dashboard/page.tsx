@@ -69,7 +69,7 @@ export default function DashboardPage() {
   // Academic Performance Stats
   const academicStats = {
     totalStudents: 60,
-    averageScore: 85.5, 
+    averageScore: 85.5,  
     attendance: 92,
     upcomingExams: 3,
     pendingAssignments: 4,
