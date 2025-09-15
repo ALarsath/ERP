@@ -1,0 +1,2 @@
+# Ignore unused import warnings for now
+**/*.tsx @typescript-eslint/no-unused-vars

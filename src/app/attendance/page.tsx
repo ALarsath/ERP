@@ -4,8 +4,6 @@ import {
   Card,
   Typography,
   Tabs,
-  Calendar,
-  Badge,
   Table,
   Progress,
   Statistic,
@@ -17,10 +15,12 @@ import {
   Button,
   Alert,
   Timeline,
-  Avatar,  
   Modal,
   Tooltip,
-  DatePicker
+  DatePicker,
+  Calendar,
+  Badge,
+  Avatar
 } from 'antd';
 import {
   CheckCircleOutlined,

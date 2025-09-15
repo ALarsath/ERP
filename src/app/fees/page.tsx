@@ -103,6 +103,29 @@ interface UpcomingPayment {
   category: string;
 }
 
+interface PaymentFormValues {
+  cardNumber: string;
+  cardHolderName: string;
+  expiryDate: string;
+  cvv: string;
+  amount: number;
+}
+
+interface FeeDetail {
+  key: string;
+  feeType: string;
+  category: string;
+  amount: number;
+  dueDate: string;
+  status: 'paid' | 'pending' | 'overdue' | 'partial';
+  paidAmount: number;
+  remainingAmount: number;
+  lateFee?: number;
+  installments?: number;
+  currentInstallment?: number;
+  discount?: number;
+}
+
 export default function Fees() {
   const [isPaymentModalVisible, setIsPaymentModalVisible] = useState(false);
   const [selectedFee, setSelectedFee] = useState<FeeDetail | null>(null);
@@ -258,7 +281,7 @@ export default function Fees() {
     setIsPaymentModalVisible(true);
   };
 
-  const handlePaymentSubmit = (values: any) => {
+  const handlePaymentSubmit = (values: PaymentFormValues) => {
     console.log('Payment submitted:', values);
     setIsPaymentModalVisible(false);
   };
