@@ -1,7 +1,8 @@
 'use client';
-import { Card, Table, Typography, Row, Col, Statistic, Progress, Alert, List, Tag, Timeline, Avatar, Space, Divider, Modal } from 'antd';
+import { Card, Table, Typography, Row, Col, Statistic, Progress, Alert, List, Tag, Timeline, Space, Modal } from 'antd';
 import { useState } from 'react';
 import MainLayout from '@/components/layout/MainLayout';
+import type { PointsData, Project, Activity } from '@/types/dashboard';
 import {
   TrophyOutlined,
   RiseOutlined,
@@ -356,7 +357,7 @@ export default function DashboardPage() {
                 Welcome back, Prassana Natarajan! 👋
               </Title>
               <Paragraph className="!text-blue-100 !mb-0 text-sm sm:text-base">
-                You're doing great this semester. Keep up the excellent work!
+                You&apos;re doing great this semester. Keep up the excellent work!
               </Paragraph>
             </div>
             <div className="flex items-center gap-4">

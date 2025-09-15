@@ -18,9 +18,9 @@ import {
   Alert,
   Timeline,
   Avatar,  
-  Tooltip,  
-  DatePicker,
   Modal,
+  Tooltip,
+  DatePicker
 } from 'antd';
 import {
   CheckCircleOutlined,

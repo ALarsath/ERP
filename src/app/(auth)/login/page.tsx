@@ -34,7 +34,14 @@ export default function LoginPage() {
   const [userType, setUserType] = useState('student');
   const [showPassword, setShowPassword] = useState(false);
 
-  const onFinish = (values: any) => {
+  interface LoginFormValues {
+    username: string;
+    password: string;
+    remember?: boolean;
+    userType?: string;
+  }
+
+  const onFinish = (values: LoginFormValues) => {
     setLoading(true);
     // Simulate login API call
     setTimeout(() => {
